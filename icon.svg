@@ -1,0 +1,18 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shield Background -->
+  <path d="M256 32C397.333 32 460 106.667 460 213.333C460 362.667 256 480 256 480C256 480 52 362.667 52 213.333C52 106.667 114.667 32 256 32Z" fill="#C8102E"/>
+  
+  <!-- Shield Inner Border/Glow -->
+  <path d="M256 50C375 50 435 115 435 213C435 340 256 450 256 450C256 450 77 340 77 213C77 115 137 50 256 50Z" stroke="#D4AF37" stroke-width="8" stroke-opacity="0.3"/>
+
+  <!-- Sword Blade -->
+  <path d="M256 400L226 340L242 140H270L286 340L256 400Z" fill="#D4AF37"/>
+  <path d="M256 400L256 140" stroke="#F5F5DC" stroke-width="2" stroke-opacity="0.5"/>
+
+  <!-- Sword Guard -->
+  <path d="M186 140H326" stroke="#D4AF37" stroke-width="24" stroke-linecap="round"/>
+  
+  <!-- Sword Hilt -->
+  <path d="M256 140V90" stroke="#D4AF37" stroke-width="24" stroke-linecap="round"/>
+  <circle cx="256" cy="70" r="28" fill="#D4AF37"/>
+</svg>

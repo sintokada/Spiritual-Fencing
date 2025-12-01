@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { AppData } from '../types';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  LineChart, Line, Legend, LabelList, TooltipProps
+  LineChart, Line, Legend, LabelList
 } from 'recharts';
 import { PenTool, Download, FileText, Calendar as CalendarIcon, Check, X } from 'lucide-react';
 import { exportToCSV, exportToPDF } from '../services/exportService';
@@ -13,7 +13,7 @@ interface ReportsProps {
 }
 
 // Custom Tooltip for Bar Chart (Average Scores)
-const CustomBarTooltip: React.FC<TooltipProps<number, string>> = ({ active, payload, label }) => {
+const CustomBarTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (

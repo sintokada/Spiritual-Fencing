@@ -1,0 +1,16 @@
+{
+  "name": "Spiritual Fencing",
+  "short_name": "Fencing",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#F5F5DC",
+  "theme_color": "#C8102E",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
