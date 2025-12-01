@@ -1,16 +1,45 @@
 {
-  "name": "Spiritual Fencing",
-  "short_name": "Fencing",
-  "start_url": ".",
+  "name": "Daily Armor",
+  "short_name": "Armor",
+  "id": "/",
+  "start_url": "/",
+  "description": "Build spiritual habits and guard your mind with daily tracking.",
   "display": "standalone",
-  "background_color": "#F5F5DC",
-  "theme_color": "#C8102E",
   "orientation": "portrait",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FFFFFF",
+  "categories": [
+    "lifestyle",
+    "productivity"
+  ],
   "icons": [
     {
-      "src": "icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml"
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "./screenshot-mobile.png",
+      "sizes": "1170x2532",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Daily Tracking"
+    },
+    {
+      "src": "./screenshot-desktop.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Detailed Reports"
     }
   ]
 }
