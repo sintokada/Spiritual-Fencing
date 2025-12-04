@@ -218,7 +218,7 @@ const Entry: React.FC<EntryProps> = ({ data, onSave }) => {
 
       {/* LAW OF PRESENCE MODAL */}
       {showGuideline && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 animate-slide-up">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-slide-up">
            {/* Backdrop */}
            <div 
              className="absolute inset-0 bg-stone-900/60 backdrop-blur-sm transition-opacity"
