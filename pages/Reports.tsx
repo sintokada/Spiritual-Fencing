@@ -4,8 +4,9 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   LineChart, Line, Legend, LabelList
 } from 'recharts';
-import { PenTool, Download, FileText, Calendar as CalendarIcon, Check, X } from 'lucide-react';
+import { Download, FileText, Calendar as CalendarIcon, Check, X, Sparkles, Wand2, RefreshCw, Quote } from 'lucide-react';
 import { exportToCSV, exportToPDF } from '../services/exportService';
+import { GoogleGenAI } from "@google/genai";
 
 interface ReportsProps {
   data: AppData;
@@ -74,6 +75,10 @@ const Reports: React.FC<ReportsProps> = ({ data, onUpdateReflection }) => {
   const [selectedMonth, setSelectedMonth] = useState<string>(
     new Date().toISOString().slice(0, 7) // YYYY-MM
   );
+  
+  // AI State
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [aiResponse, setAiResponse] = useState<string | null>(null);
 
   const isDark = data.settings.darkMode;
   const textColor = isDark ? '#e7e5e4' : '#44403c'; 
@@ -148,6 +153,61 @@ const Reports: React.FC<ReportsProps> = ({ data, onUpdateReflection }) => {
 
   const todayStr = new Date().toISOString().split('T')[0];
   const colors = ['#880808', '#d4af37', '#b45309', '#be123c', '#7f1d1d', '#92400e', '#0f766e', '#1e40af', '#5b21b6', '#86198f'];
+
+  // --- GEMINI AI GENERATION ---
+  const handleMotivateMe = async () => {
+    setIsGenerating(true);
+    setAiResponse(null);
+
+    try {
+      // Note: Assuming process.env.API_KEY is available in the environment
+      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      
+      // Prepare context from data
+      const stats = averageData.map(a => `${a.name}: ${a.avg}/10`).join(', ');
+      const topStrength = averageData.length > 0 && averageData[0].avg > 0 ? averageData[0].name : "Starting Out";
+      const struggleArea = averageData.length > 0 ? averageData[averageData.length - 1].name : "Everything";
+
+      const prompt = `
+        You are a wise and compassionate Catholic Spiritual Director.
+        
+        The user is practicing "Spiritual Fencing" (guarding the mind and heart).
+        Here is their report for ${selectedMonth}:
+        - Overall Stats: ${stats}
+        - Strongest Area: ${topStrength}
+        - Area Needing Grace: ${struggleArea}
+
+        Based on this data, provide a short, personalized spiritual encouragement.
+        1. Acknowledge their effort specifically (mention the struggle or strength).
+        2. Provide 1 specific Bible Verse (Word of God) related to their situation.
+        3. Provide 1 Quote from a Catholic Saint that fits their data.
+        4. End with a short prayer invoking the Eucharistic Heart of Jesus.
+
+        Keep the tone encouraging, holy, and motivating. Use Markdown for bolding key parts.
+      `;
+
+      // Correct API usage per @google/genai guidelines
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: prompt
+      });
+      
+      const responseText = response.text;
+      
+      if (responseText) {
+        setAiResponse(responseText);
+        onUpdateReflection(selectedMonth, responseText);
+      } else {
+        throw new Error("No response text received from AI");
+      }
+
+    } catch (error) {
+      console.error("AI Generation Error:", error);
+      setAiResponse("⚠️ Unable to connect to the Spiritual Director at this moment. Please try again later or say a short prayer for connection.");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
 
   return (
     <div className="space-y-8 pb-12 animate-slide-up">
@@ -328,23 +388,64 @@ const Reports: React.FC<ReportsProps> = ({ data, onUpdateReflection }) => {
           </div>
         </div>
 
-        {/* Monthly Reflection */}
-        <div className="glass-panel p-6 rounded-3xl shadow-glass break-inside-avoid">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-white/50 dark:bg-stone-700/50 rounded-full text-sacred-red">
-              <PenTool className="w-5 h-5" />
+        {/* AI Spiritual Direction Section (Gemini) */}
+        <div className="glass-panel p-6 rounded-3xl shadow-glass break-inside-avoid relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-gold-accent/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+          
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 relative z-10">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 bg-sacred-red/10 dark:bg-sacred-red/20 rounded-full text-sacred-red">
+                <Wand2 className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-stone-800 dark:text-stone-200">Spiritual Direction</h3>
+                <p className="text-xs text-stone-500 dark:text-stone-400">Receive Catholic motivation based on your data</p>
+              </div>
             </div>
-            <h3 className="text-lg font-bold text-stone-800 dark:text-stone-200">Monthly Reflection</h3>
+            
+            <button
+              onClick={handleMotivateMe}
+              disabled={isGenerating}
+              className="group relative px-6 py-2.5 bg-gradient-to-r from-sacred-red to-orange-600 text-white rounded-xl font-bold shadow-lg hover:shadow-orange-500/30 transition-all active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed overflow-hidden w-full sm:w-auto"
+            >
+              <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+              <div className="flex items-center justify-center gap-2">
+                {isGenerating ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    <span>Praying...</span>
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4 text-yellow-300" />
+                    <span>Motivate Me</span>
+                  </>
+                )}
+              </div>
+            </button>
           </div>
-          <p className="text-stone-600 dark:text-stone-400 mb-4 italic">
-            "How has the Eucharistic Heart strengthened you this month?"
-          </p>
-          <textarea
-            value={data.reflections[selectedMonth] || ''}
-            onChange={(e) => onUpdateReflection(selectedMonth, e.target.value)}
-            placeholder="Write your reflection here..."
-            className="w-full h-32 p-4 rounded-xl border border-white/30 dark:border-white/10 focus:border-sacred-red focus:ring-1 focus:ring-sacred-red outline-none resize-none bg-white/40 dark:bg-black/20 text-stone-700 dark:text-stone-200 placeholder-stone-400 shadow-inner"
-          />
+
+          <div className="bg-white/40 dark:bg-black/20 rounded-2xl border border-stone-200 dark:border-stone-700 min-h-[160px] p-6 relative">
+            {aiResponse || data.reflections[selectedMonth] ? (
+              <div className="prose prose-stone dark:prose-invert max-w-none text-sm leading-relaxed whitespace-pre-wrap font-medium">
+                {/* Displaying AI Response or Saved Reflection */}
+                {aiResponse || data.reflections[selectedMonth]}
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center h-full text-stone-400 text-center py-8">
+                <div className="mb-4 relative">
+                   <Sparkles className="w-8 h-8 opacity-30 text-gold-accent" />
+                   <Quote className="w-6 h-6 absolute -top-2 -right-4 text-sacred-red/40" />
+                </div>
+                <p className="italic mb-1">
+                  "Click 'Motivate Me' to receive spiritual guidance for this month."
+                </p>
+                <p className="text-xs opacity-70">
+                  Powered by Gemini AI • Catholic Perspective
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

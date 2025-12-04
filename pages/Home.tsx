@@ -20,9 +20,15 @@ const FENCING_VERSES = [
 
 const Home: React.FC<HomeProps> = ({ data, onNavigate }) => {
   const today = new Date().toISOString().split('T')[0];
-  const hasEntryToday = !!data.logs[today];
-  const fencingScore = data.logs[today] 
-    ? Object.values(data.logs[today].scores).reduce((a, b) => a + b, 0) / data.activities.length 
+  const todayLog = data.logs[today];
+  const hasEntryToday = !!todayLog;
+
+  const totalScore = todayLog
+    ? Object.values(todayLog.scores).reduce((sum, score) => sum + (score as number), 0)
+    : 0;
+
+  const fencingScore = (hasEntryToday && data.activities.length > 0)
+    ? totalScore / data.activities.length
     : 0;
 
   // Select a random verse on component mount
