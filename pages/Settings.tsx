@@ -68,8 +68,19 @@ const Settings: React.FC<SettingsProps> = ({ data, onUpdateActivities, onUpdateS
         Notification.requestPermission().then(permission => {
           if (permission === "granted") {
             onUpdateSettings({ ...data.settings, notificationsEnabled: true });
+            
+            // Immediate feedback: Test Notification
+            try {
+              new Notification("Spiritual Fencing", { 
+                body: "Reminders enabled! You will be notified at your set time.",
+                icon: "/icon.svg"
+              });
+            } catch (e) {
+              console.log("Test notification failed or suppressed");
+            }
+
           } else {
-            alert("Notification permission denied.");
+            alert("Notification permission denied. Please enable notifications for this site in your browser settings.");
           }
         });
       } else {
@@ -125,41 +136,53 @@ const Settings: React.FC<SettingsProps> = ({ data, onUpdateActivities, onUpdateS
             </div>
 
             {/* Notifications Toggle */}
-            <div className="flex items-center justify-between p-4 bg-white/40 dark:bg-black/20 rounded-2xl border border-white/20 dark:border-white/5">
-               <div className="flex items-center gap-3">
-                  <Bell className="text-sacred-red w-6 h-6" />
-                  <div>
-                    <h4 className="text-stone-700 dark:text-stone-200 font-bold">Daily Reminders</h4>
-                    <p className="text-xs text-stone-500 dark:text-stone-400">Get notified to enter your data</p>
-                  </div>
+            <div className="flex flex-col gap-2 p-4 bg-white/40 dark:bg-black/20 rounded-2xl border border-white/20 dark:border-white/5">
+               <div className="flex items-center justify-between w-full">
+                 <div className="flex items-center gap-3">
+                    <Bell className="text-sacred-red w-6 h-6" />
+                    <div>
+                      <h4 className="text-stone-700 dark:text-stone-200 font-bold">Daily Reminders</h4>
+                      <p className="text-xs text-stone-500 dark:text-stone-400">Get notified to enter your data</p>
+                    </div>
+                 </div>
+                 
+                 <div className="flex items-center gap-4">
+                    {data.settings.notificationsEnabled && (
+                      <div className="flex items-center gap-2 border-r border-stone-300 dark:border-stone-600 pr-4">
+                        <Clock className="w-4 h-4 text-stone-500" />
+                        <input 
+                          type="time" 
+                          value={data.settings.notificationTime}
+                          onChange={handleTimeChange}
+                          className="bg-transparent border border-stone-300 dark:border-stone-600 rounded px-2 py-1 text-stone-700 dark:text-stone-200 focus:outline-none focus:border-sacred-red text-sm font-bold"
+                        />
+                      </div>
+                    )}
+
+                    <label className="flex items-center cursor-pointer">
+                      <div className="relative">
+                        <input 
+                          type="checkbox" 
+                          className="sr-only" 
+                          checked={data.settings.notificationsEnabled}
+                          onChange={handleNotificationToggle}
+                        />
+                        <div className={`block w-14 h-8 rounded-full transition-colors ${data.settings.notificationsEnabled ? 'bg-green-600' : 'bg-stone-300'}`}></div>
+                        <div className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition transform shadow-md ${data.settings.notificationsEnabled ? 'translate-x-6' : ''}`}></div>
+                      </div>
+                    </label>
+                 </div>
                </div>
                
-               <div className="flex items-center gap-4">
-                  {data.settings.notificationsEnabled && (
-                    <div className="flex items-center gap-2 border-r border-stone-300 dark:border-stone-600 pr-4">
-                      <Clock className="w-4 h-4 text-stone-500" />
-                      <input 
-                        type="time" 
-                        value={data.settings.notificationTime}
-                        onChange={handleTimeChange}
-                        className="bg-transparent border border-stone-300 dark:border-stone-600 rounded px-2 py-1 text-stone-700 dark:text-stone-200 focus:outline-none focus:border-sacred-red text-sm font-bold"
-                      />
-                    </div>
-                  )}
-
-                  <label className="flex items-center cursor-pointer">
-                    <div className="relative">
-                      <input 
-                        type="checkbox" 
-                        className="sr-only" 
-                        checked={data.settings.notificationsEnabled}
-                        onChange={handleNotificationToggle}
-                      />
-                      <div className={`block w-14 h-8 rounded-full transition-colors ${data.settings.notificationsEnabled ? 'bg-green-600' : 'bg-stone-300'}`}></div>
-                      <div className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition transform shadow-md ${data.settings.notificationsEnabled ? 'translate-x-6' : ''}`}></div>
-                    </div>
-                  </label>
-               </div>
+               {/* Mobile Tip */}
+               {data.settings.notificationsEnabled && (
+                  <div className="mt-2 p-2 bg-yellow-50 dark:bg-yellow-900/10 rounded-lg flex gap-2">
+                    <span className="text-lg">📱</span>
+                    <p className="text-[10px] text-stone-600 dark:text-stone-400 leading-tight">
+                      <strong>Note for iPhone/Android:</strong> For reliable notifications, ensure this app is added to your Home Screen ("Add to Home Screen"). If you don't receive the test notification instantly, check your device settings.
+                    </p>
+                  </div>
+               )}
             </div>
          </div>
       </div>

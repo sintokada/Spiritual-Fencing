@@ -24,7 +24,7 @@ const Home: React.FC<HomeProps> = ({ data, onNavigate }) => {
   const hasEntryToday = !!todayLog;
 
   const totalScore = todayLog
-    ? Object.values(todayLog.scores).reduce((sum, score) => sum + (score as number), 0)
+    ? Object.values(todayLog.scores).reduce((sum: number, score: number) => sum + score, 0)
     : 0;
 
   const fencingScore = (hasEntryToday && data.activities.length > 0)

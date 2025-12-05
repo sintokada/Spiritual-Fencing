@@ -1,5 +1,5 @@
 import React from 'react';
-import { Activity, Settings, Home, Shield, BookOpen, Menu } from 'lucide-react';
+import { Activity, Settings, Home, Shield, BookOpen } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -62,11 +62,6 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigate }) =>
           {/* Centered Title */}
           <div className="w-full text-center">
              <h1 className="text-lg font-bold text-stone-800 dark:text-stone-100 tracking-wide drop-shadow-sm">Spiritual Fencing</h1>
-          </div>
-
-          {/* Spacer/Menu Right (Optional) */}
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-10 flex justify-end">
-            <Menu className="w-6 h-6 text-sacred-dark-red dark:text-sacred-red opacity-0 md:opacity-100" />
           </div>
         </div>
       </header>

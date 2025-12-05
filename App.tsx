@@ -5,6 +5,7 @@ import Entry from './pages/Entry';
 import Reports from './pages/Reports';
 import Settings from './pages/Settings';
 import Guide from './pages/Guide';
+import Adore from './pages/Adore';
 import { loadData, saveData } from './services/storageService';
 import { AppData, Activity, AppSettings } from './types';
 
@@ -35,37 +36,51 @@ function App() {
     }
   }, [data?.settings.darkMode]);
 
-  // Notification Logic
+  // Notification Logic (Robust Mobile Implementation)
   useEffect(() => {
     if (data?.settings.notificationsEnabled) {
-      // Clear existing interval
-      if (notificationInterval.current) window.clearInterval(notificationInterval.current);
-
-      notificationInterval.current = window.setInterval(() => {
+      const checkAndNotify = () => {
         const now = new Date();
-        const currentTime = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+        const [targetHours, targetMinutes] = data.settings.notificationTime.split(':').map(Number);
         
-        // Simple check: if current time matches setting, and we haven't notified in the last minute (avoid spam)
-        // Note: For a robust app, we'd store "lastNotifiedDate" in localStorage
+        // Create target date object for today
+        const targetTime = new Date(now);
+        targetTime.setHours(targetHours, targetMinutes, 0, 0);
+
         const lastNotified = localStorage.getItem('last_notification_date');
         const today = now.toDateString();
 
-        if (currentTime === data.settings.notificationTime && lastNotified !== today) {
+        // LOGIC: If we haven't notified today AND current time is past or equal to target time
+        // This handles cases where the phone was asleep during the exact minute
+        if (lastNotified !== today && now >= targetTime) {
            if (Notification.permission === "granted") {
-             new Notification("Spiritual Fencing", {
-               body: "It is time to rate your spiritual activities for today.",
-               icon: "/favicon.ico" // Browser default if missing
-             });
+             try {
+               new Notification("Spiritual Fencing", {
+                 body: "It is time to rate your spiritual activities for today.",
+                 icon: "/icon.svg", 
+                 tag: 'daily-reminder', // Replaces older notifications with same tag
+                 requireInteraction: true // Keeps notification visible on some devices
+               });
+             } catch (e) {
+               console.error("Notification failed:", e);
+             }
              localStorage.setItem('last_notification_date', today);
            }
         }
-      }, 30000); // Check every 30 seconds
-    }
+      };
 
-    return () => {
+      // 1. Check immediately on mount (in case user opens app after time passed)
+      checkAndNotify();
+
+      // 2. Check periodically
       if (notificationInterval.current) window.clearInterval(notificationInterval.current);
-    };
-  }, [data?.settings]);
+      notificationInterval.current = window.setInterval(checkAndNotify, 60000); // Check every minute
+
+      return () => {
+        if (notificationInterval.current) window.clearInterval(notificationInterval.current);
+      };
+    }
+  }, [data?.settings.notificationsEnabled, data?.settings.notificationTime]);
 
   const handleNavigate = (page: string) => {
     setCurrentPage(page);
@@ -124,6 +139,8 @@ function App() {
     switch (currentPage) {
       case 'home':
         return <Home data={data} onNavigate={handleNavigate} />;
+      case 'adore':
+        return <Adore />;
       case 'guide':
         return <Guide />;
       case 'entry':

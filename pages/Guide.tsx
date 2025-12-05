@@ -8,7 +8,7 @@ import {
 
 const Guide: React.FC = () => {
   const [showTappingModal, setShowTappingModal] = useState(false);
-  const [fontSize, setFontSize] = useState(16);
+  const [fontSize, setFontSize] = useState(18);
 
   const increaseFont = () => setFontSize(prev => Math.min(prev + 2, 28));
   const decreaseFont = () => setFontSize(prev => Math.max(prev - 2, 12));
@@ -203,9 +203,10 @@ const Guide: React.FC = () => {
 
       {/* TAPPING PRAYER MODAL */}
       {showTappingModal && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-0 md:p-4">
           <div className="absolute inset-0 bg-stone-900/60 backdrop-blur-sm" onClick={() => setShowTappingModal(false)}></div>
-          <div className="relative w-full max-w-2xl max-h-[85vh] bg-[#F5F5DC] dark:bg-stone-900 rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-white/20 animate-slide-up">
+          {/* Maximized height class: h-full on mobile, h-[95vh] on desktop */}
+          <div className="relative w-full max-w-2xl h-full md:h-[95vh] bg-[#F5F5DC] dark:bg-stone-900 md:rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-white/20 animate-slide-up">
             
             {/* Modal Header */}
             <div className="flex items-center justify-between p-4 border-b border-stone-200 dark:border-stone-700 bg-white/50 dark:bg-stone-800/50 backdrop-blur-md sticky top-0 z-10">
@@ -286,28 +287,28 @@ const Guide: React.FC = () => {
                   Oh, Lord, your love knows no bounds and your blessings are beyond measure. I am in awe of your endless mercy and grace. How can I ever thank you sufficiently for all that you have done? As I reflect on the blessings of today, I am humbled by their abundance. Your love is evident in every moment, in every breath I take. The blessings you bestow upon me are countless, too numerous to recount. Your generosity knows no limits and your provision exceeds all expectations.
                 </p>
                 <p className="leading-relaxed text-justify">
-                  Recalling the blessings that I have received today, I realize that I can't remember all of them; I cannot finish counting all of them. All what I can do is to come before you, join with all the angels and saints and bow before you and say, 'Lord, I worship you.' (Let us see ourselves prostrated in worship before Jesus who is on the Eucharistic Heart of Jesus.)
+                  Recalling the blessings that I have received today, I realize that I can't remember all of them; I cannot finish counting all of them. All what I can do is to come before you, join with all the angels and saints and bow before you and say, 'Lord, I worship you.' (Let us see ourselves prostrated in worship before Jesus who is on the cross.)
                 </p>
                 <p className="leading-relaxed text-justify">
-                  Jesus, my most adorable loving God, as I see you hanging on the Eucharistic Heart of Jesus in the company of my dearest saints and angels, I see myself totally prostrated before you. I realize that you are such a mighty God who created the sun, the moon, the stars and everything that I see around. You created everything with a word. You divided the Red Sea to save your people. You brought water from the rock for your people. Lord, you are such a mighty God and yet you say that you love me. Though I am only a little creature, yet you say that my name is written on your palm and you knew me even before I was born. I worship you, Lord, with my entire being.
+                  Jesus, my most adorable loving God, as I see you hanging on the cross in the company of my dearest saints and angels, I see myself totally prostrated before you. I realize that you are such a mighty God who created the sun, the moon, the stars and everything that I see around. You created everything with a word. You divided the Red Sea to save your people. You brought water from the rock for your people. Lord, you are such a mighty God and yet you say that you love me. Though I am only a little creature, yet you say that my name is written on your palm and you knew me even before I was born. I worship you, Lord, with my entire being.
                 </p>
                 <p className="italic text-stone-500" style={{ fontSize: '0.9em' }}>(We may sing a few lines of a worship hymn)</p>
                 <p className="leading-relaxed text-justify">
-                  As I lay prostrate before You in humble adoration and worship, I also want to surrender my entire being to you at the foot of the Eucharistic Heart of Jesus.
+                  As I lay prostrate before You in humble adoration and worship, I also want to surrender my entire being to you at the foot of the Cross.
                 </p>
                 <div className="bg-white/50 dark:bg-stone-800/50 p-4 rounded-xl space-y-2">
                   <p className="font-bold text-stone-600 dark:text-stone-300">I surrender:</p>
                   <ul className="list-disc pl-5 space-y-1 marker:text-gold-accent text-justify">
                     <li>My entire body, mind and spirit, my past, present and future. I take each part of my body and place it before you, Jesus.</li>
-                    <li>My left and right eyes along with everything I have seen till today. I surrender in every manner all that I have used my eyes for.</li>
-                    <li>My lips and tongue along with everything I have spoken till today. I surrender every word that I have spoken to encourage as well as hurt others. I surrender every use of my tongue and lips.</li>
-                    <li>My ears along with every single word that I have listened to, every word that made me realize your love and every hurt feeling and insult which brings tears in my eyes when I recall.</li>
-                    <li>The left and the right portions of my brain along with my intellect and all that you had helped me to plan and execute today. I surrender every imagination and desire that crossed my mind as well as the painful memories in connection with various people and situations.</li>
-                    <li>My neck, left and right shoulders and hands along with every single action that I have done: worked/typed/texted/browsed.</li>
-                    <li>My chest along with all my heart's desires. I surrender all that I have: my possessions, good friendships. I also surrender all attachments and distractions.</li>
-                    <li>My entire heart, back, stomach, all my internal organs, waist, thighs, left and right legs and all the bodily ailments with which I am struggling.</li>
-                    <li>From the crown of my head to the sole of my feet, every single cell of my body.</li>
-                    <li>Everything that happened today. (We surrender every event of that day, both positive and negative, along with everything that we want the Lord to touch and transform. A hymn of surrendering may be sung. If we are praying for a particular need of the community or society, we surrender that situation and the people involved at the foot the Eucharistic Heart of Jesus.)</li>
+                    <li>I take my left and right eyes along with everything I have seen till today and place them before you. I surrender in every manner all that I have used my eyes for.</li>
+                    <li>I surrender my lips and tongue along with everything I have spoken till today. I surrender every word that I have spoken to encourage as well as hurt others. I surrender every use of my tongue and lips.</li>
+                    <li>Lord, I surrender my ears along with every single word that I have listened to, every word that made me realize your love and every hurt feeling and insult which brings tears in my eyes when I recall.</li>
+                    <li>I surrender the left and the right portions of my brain along with my intellect and all that you had helped me to plan and execute today. I surrender every imagination and desire that crossed my mind as well as the painful memories in connection with various people and situations.</li>
+                    <li>Lord, I surrender my neck, left and right shoulders and hands along with every single action that I have done: worked/typed/texted/browsed.</li>
+                    <li>I surrender my chest along with all my heart's desires. I surrender all that I have: my possessions, good friendships. I also surrender all attachments and distractions.</li>
+                    <li>I surrender my entire heart, back, stomach, all my internal organs, waist, thighs, left and right legs and all the bodily ailments with which I am struggling.</li>
+                    <li>Lord, I surrender from the crown of my head to the sole of my feet, every single cell of my body.</li>
+                    <li>Lord, I surrender everything that happened today. (We surrender every event of that day, both positive and negative, along with everything that we want the Lord to touch and transform. A hymn of surrendering may be sung. If we are praying for a particular need of the community or society, we surrender that situation and the people involved at the foot the cross.)</li>
                   </ul>
                 </div>
               </section>
@@ -327,13 +328,13 @@ const Guide: React.FC = () => {
                   </p>
                 </div>
                 <p className="leading-relaxed text-justify">
-                  There is power, healing, forgiveness and renewal in your precious blood, Jesus. May your most precious blood that you shed on the Eucharistic Heart of Jesus come with its mighty anointing power upon me. Let it fall upon my forehead and flow down like a mighty rain. Let it fall upon me and flow to my eyes... ears... nose... cheeks... lips... tongue... brain... neck... shoulders... hands... elbows... inner palm... fingers... chest... back... stomach... waist... thighs... knees... legs... into all my attachments... friendships... and to every single cell of my entire being.
+                  There is power, healing, forgiveness and renewal in your precious blood, Jesus. May your most precious blood that you shed on the cross come with its mighty anointing power upon me. Let it fall upon my forehead and flow down like a mighty rain. Let it fall upon me and flow to my eyes... ears... nose... cheeks... lips... tongue... brain... neck... shoulders... hands... elbows... inner palm... fingers... chest... back... stomach... waist... thighs... knees... legs... into all my attachments... friendships... and to every single cell of my entire being.
                 </p>
                 <p className="leading-relaxed text-justify">
                   May I be drenched in your precious blood, Lord. May I be healed from everything that I have seen, heard and spoken. May I be cleansed from improper conversations, thoughts, painful memories, insults, disappointments and addictions. May my sinful past be cleansed with your precious blood, Lord. May your precious blood mingle with my blood, both externally and internally. May your precious blood enter into all those areas in which I am struggling, and heal everything.
                 </p>
                 <p className="leading-relaxed italic border-l-2 border-sacred-red pl-3 text-justify">
-                  Trusting in the power of your Most Precious Blood, I say, 'In the name of Jesus, in the most precious blood of Jesus, through the intercession and assistance of Mother Mary, Saint Michael, Saint Gabriel and all the saints and angels, every form of evil powers and bondages that are trying to afflict me, get out of me and my surroundings and get lost into the eternal fire of hell and never to return to me again. May your precious blood, O Lord, protect me by surrounding me totally. May I be healed and sealed in the blood of Jesus.' (We may say it three times making the sign of the Eucharistic Heart of Jesus on our forehead, eyes, mouth, hands, chest, etc.)
+                  Trusting in the power of your Most Precious Blood, I say, 'In the name of Jesus, in the most precious blood of Jesus, through the intercession and assistance of Mother Mary, Saint Michael, Saint Gabriel and all the saints and angels, every form of evil powers and bondages that are trying to afflict me, get out of me and my surroundings and get lost into the eternal fire of hell and never to return to me again. May your precious blood, O Lord, protect me by surrounding me totally. May I be healed and sealed in the blood of Jesus.' (We may say it three times making the sign of the cross on our forehead, eyes, mouth, hands, chest, etc.)
                 </p>
                 <div className="bg-stone-50 dark:bg-stone-800 p-3 rounded-lg">
                   <p className="font-bold mt-2">Renunciations:</p>
@@ -409,7 +410,7 @@ const Guide: React.FC = () => {
               <section className="space-y-3">
                 <h3 className="font-bold text-sacred-red flex items-center gap-2" style={{ fontSize: '1.2em' }}>
                    <span className="w-2 h-2 rounded-full bg-gold-accent"></span>
-                   GOOD ACTION / GIFT
+                   GOOD ACTION
                 </h3>
                 <p className="leading-relaxed text-justify">
                   Thank you, Jesus, for renewing my heart and giving me the strength to begin again. With you by my side, I will live each day in love, praising you, and trusting your grace to guide me. I am yours, Lord—today, tomorrow, and forever.
