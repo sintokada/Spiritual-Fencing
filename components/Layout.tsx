@@ -7,20 +7,17 @@ interface LayoutProps {
   onNavigate: (page: string) => void;
 }
 
-// Vector Sacred Heart Logo Component
-const SacredHeartLogo = () => (
-  <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm">
-    {/* Flames */}
-    <path d="M50 20C50 20 40 10 35 15C30 20 45 25 45 25" stroke="#D4AF37" strokeWidth="3" strokeLinecap="round"/>
-    <path d="M50 15C50 15 60 5 65 10C70 15 55 20 55 20" stroke="#D4AF37" strokeWidth="3" strokeLinecap="round"/>
-    <path d="M50 28V5" stroke="#D4AF37" strokeWidth="3" strokeLinecap="round"/>
-    {/* Cross */}
-    <path d="M50 5V25" stroke="#D4AF37" strokeWidth="4" strokeLinecap="round"/>
-    <path d="M42 12H58" stroke="#D4AF37" strokeWidth="4" strokeLinecap="round"/>
-    {/* Heart Body */}
-    <path d="M50 90C50 90 85 65 85 45C85 30 70 25 50 40C30 25 15 30 15 45C15 65 50 90 50 90Z" fill="#C8102E" stroke="#880808" strokeWidth="2"/>
-    {/* Shine */}
-    <path d="M25 45C25 45 30 35 40 38" stroke="rgba(255,255,255,0.4)" strokeWidth="2" strokeLinecap="round"/>
+// Red Shield with Yellow Cross Logo
+const ArmorLogo = () => (
+  <svg width="40" height="40" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm">
+    {/* Shield Background */}
+    <path d="M256 32C397.333 32 460 106.667 460 213.333C460 362.667 256 480 256 480C256 480 52 362.667 52 213.333C52 106.667 114.667 32 256 32Z" fill="#C8102E"/>
+    
+    {/* Cross Vertical */}
+    <rect x="221" y="100" width="70" height="320" rx="4" fill="#FCD34D" />
+    
+    {/* Cross Horizontal */}
+    <rect x="136" y="180" width="240" height="70" rx="4" fill="#FCD34D" />
   </svg>
 );
 
@@ -56,7 +53,7 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigate }) =>
         <div className="max-w-4xl mx-auto flex items-center justify-between relative">
           {/* Absolute Positioned Logo Left */}
           <div className="absolute left-0 top-1/2 -translate-y-1/2">
-            <SacredHeartLogo />
+            <ArmorLogo />
           </div>
           
           {/* Centered Title */}
