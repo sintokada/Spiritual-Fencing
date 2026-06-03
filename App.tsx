@@ -53,7 +53,7 @@ function App() {
         // LOGIC: If we haven't notified today AND current time is past or equal to target time
         // This handles cases where the phone was asleep during the exact minute
         if (lastNotified !== today && now >= targetTime) {
-           if (Notification.permission === "granted") {
+           if (typeof Notification !== 'undefined' && Notification.permission === "granted") {
              try {
                new Notification("Spiritual Fencing", {
                  body: "It is time to rate your spiritual activities for today.",

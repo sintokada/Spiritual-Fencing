@@ -6,7 +6,6 @@ import {
 } from 'recharts';
 import { Download, FileText, Calendar as CalendarIcon, Check, X, Sparkles, Wand2, RefreshCw, Quote } from 'lucide-react';
 import { exportToCSV, exportToPDF } from '../services/exportService';
-import { GoogleGenAI } from "@google/genai";
 
 interface ReportsProps {
   data: AppData;
@@ -160,8 +159,10 @@ const Reports: React.FC<ReportsProps> = ({ data, onUpdateReflection }) => {
     setAiResponse(null);
 
     try {
-      // Note: Assuming process.env.API_KEY is available in the environment
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const apiKey = process.env.GEMINI_API_KEY || process.env.API_KEY;
+      if (!apiKey) {
+        throw new Error("Gemini API key is not configured.");
+      }
       
       // Prepare context from data
       const stats = averageData.map(a => `${a.name}: ${a.avg}/10`).join(', ');
@@ -186,13 +187,28 @@ const Reports: React.FC<ReportsProps> = ({ data, onUpdateReflection }) => {
         Keep the tone encouraging, holy, and motivating. Use Markdown for bolding key parts.
       `;
 
-      // Correct API usage per @google/genai guidelines
-      const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: prompt
-      });
-      
-      const responseText = response.text;
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{ text: prompt }]
+            }]
+          })
+        }
+      );
+
+      if (!response.ok) {
+        const errJson = await response.json().catch(() => ({}));
+        throw new Error(errJson.error?.message || `HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      const responseText = result.candidates?.[0]?.content?.parts?.[0]?.text;
       
       if (responseText) {
         setAiResponse(responseText);
