@@ -1,0 +1,10 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shield Background -->
+  <path d="M256 32C397.333 32 460 106.667 460 213.333C460 362.667 256 480 256 480C256 480 52 362.667 52 213.333C52 106.667 114.667 32 256 32Z" fill="#C8102E"/>
+  
+  <!-- Cross Vertical -->
+  <rect x="221" y="100" width="70" height="320" rx="4" fill="#FCD34D" />
+  
+  <!-- Cross Horizontal -->
+  <rect x="136" y="180" width="240" height="70" rx="4" fill="#FCD34D" />
+</svg>
